@@ -22,7 +22,7 @@ describe("Dexe token", function () {
       expect(await dexe.name()).to.equal("DeXe Token");
       expect(await dexe.symbol()).to.equal("DEXE");
       expect(await dexe.totalSupply()).to.equal(0);
-      expect(await dexe.owner()).to.equal(admin.address);
+      expect(await dexe.getOwners()).to.deep.equal([admin.address]);
       expect(await dexe.getMinters()).to.deep.equal([]);
     });
 
@@ -31,7 +31,7 @@ describe("Dexe token", function () {
     });
 
     it("must revert", async () => {
-      await expect(dexe.connect(alice).transferOwnership(bob.address))
+      await expect(dexe.connect(alice).changeOwners([bob.address], true))
         .to.be.revertedWith("Ownable: caller is not the owner");
       await expect(dexe.connect(alice).changeMinters([bob.address], true))
         .to.be.revertedWith("Ownable: caller is not the owner");
@@ -39,6 +39,18 @@ describe("Dexe token", function () {
         .to.be.revertedWith("Caller is not a minter");
       await expect(dexe.connect(alice).burn(bob.address, 1))
         .to.be.revertedWith("Caller is not a minter");
+    });
+
+    it("could add owners", async () => {
+      await dexe.changeOwners([alice.address], true);
+      expect(await dexe.getOwners()).to.deep.equal([admin.address, alice.address]);
+    });
+
+    it("could remove owners", async () => {
+      await dexe.changeOwners([alice.address], true);
+      expect(await dexe.getOwners()).to.deep.equal([admin.address, alice.address]);
+      await dexe.changeOwners([admin.address], false);
+      expect(await dexe.getOwners()).to.deep.equal([alice.address]);
     });
 
     it("could set minters", async () => {
