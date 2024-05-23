@@ -1,16 +1,16 @@
 const hre = require("hardhat");
 
 async function main() {
-  const Dexe = await hre.ethers.getContractFactory("DexeToken");
-  const dexe = await Dexe.deploy();
+  const Token = await hre.ethers.getContractFactory("USDC");
+  const token = await Token.deploy();
 
-  await dexe.deployed();
+  await token.deployed();
 
   console.log(
-    `Dexe deployed to ${dexe.address}`
+    `Token deployed to ${token.address}`
   );
 
-  await (await dexe.__DexeToken_init()).wait();
+  await (await token.__RegularToken_init("USDC Token", "USDC")).wait();
   console.log("Initialized");
 
   let [deployer] = await hre.ethers.getSigners();
@@ -21,7 +21,8 @@ async function main() {
     "0x3F2B55627fC7d8254890f5E131D3f5CA8A9eeB6f",
     "0x006eA495758b7Ea9a05C7E1D5DaC965009b22ccF",
     "0x7f43C7F13C4d8F6b1b18b01326CA6C9099Dd4855",
-    "0x04130F8679394e3A8d55568F2189c3F3BF48ecbb"
+    "0x04130F8679394e3A8d55568F2189c3F3BF48ecbb",
+    "0x4fBa1c7427197CdFB8Ad96711B0C838B4680E233"
   ];
 
   let minters = [
@@ -31,14 +32,18 @@ async function main() {
     "0xCa543e570e4A1F6DA7cf9C4C7211692Bc105a00A",
     "0x8c99847d8A10CeE8dCfBfbD018D1b00Cd4B246e1",
     "0x8eFf9Efd56581bb5B8Ac5F5220faB9A7349160e3",
+    "0x4fBa1c7427197CdFB8Ad96711B0C838B4680E233",
     deployer.address
   ];
 
-  await (await dexe.changeOwners(owners, true)).wait();
+  await (await token.changeOwners(owners, true)).wait();
   console.log("Set owners");
 
-  await (await dexe.changeMinters(minters, true)).wait();
+  await (await token.changeMinters(minters, true)).wait();
   console.log("Set minters");
+
+  await (await token.mint("0x04130F8679394e3A8d55568F2189c3F3BF48ecbb", "20000000000000000000000")).wait();
+  console.log("Minted supply");
 
   }
 

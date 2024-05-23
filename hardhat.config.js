@@ -9,22 +9,49 @@ module.exports = {
     },
     chapel: {
       url: process.env.BSC_TESTNET_URL,
-      accounts: [process.env.PRIVATE_KEY]
+      accounts: [process.env.PRIVATE_KEY],
+      gasPrice: 6000000000,
     },
     bsc: {
       url: process.env.BSC_URL,
       accounts: [process.env.PRIVATE_KEY]
     },
-    goerli: {
-      url: process.env.GOERLI_URL,
+    arbitrum: {
+      url: process.env.ARBITRUM_URL,
+      accounts: [process.env.PRIVATE_KEY]
+    },
+    optimism: {
+      url: process.env.OPTIMISM_URL,
+      accounts: [process.env.PRIVATE_KEY]
+    },
+    optimismSepolia: {
+      url: process.env.OPTIMISM_SEPOLIA_URL,
       accounts: [process.env.PRIVATE_KEY]
     },
     sepolia: {
       url: process.env.SEPOLIA_URL,
       accounts: [process.env.PRIVATE_KEY]
     },
+    amoy: {
+      url: process.env.AMOY_URL,
+      accounts: [process.env.PRIVATE_KEY]
+    },
   },
   etherscan: {
-    apiKey: process.env.API_KEY,
+    apiKey: {
+      sepolia: `${process.env.ETHERSCAN_KEY}`,
+      bscTestnet: `${process.env.BSCSCAN_KEY}`,
+      polygonAmoy: `${process.env.POLYGONSCAN_KEY}`,
+    },
+    customChains: [
+      {
+        network: "polygonAmoy",
+        chainId: 80002,
+        urls: {
+          apiURL: "https://api-amoy.polygonscan.com/api",
+          browserURL: "https://amoy.polygonscan.com"
+        },
+      }
+    ]
   },
 };

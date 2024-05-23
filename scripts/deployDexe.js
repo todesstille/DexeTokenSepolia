@@ -16,11 +16,23 @@ async function main() {
   let [deployer] = await hre.ethers.getSigners();
 
   let owners = [
+    "0x6686a6D1E737b56b7B9210A9a34c45DAc7B09051",
+    "0xED9Aa328eaA8f8bdF6F68CF707dDcF0f180Cf531",
+    "0x3F2B55627fC7d8254890f5E131D3f5CA8A9eeB6f",
+    "0x006eA495758b7Ea9a05C7E1D5DaC965009b22ccF",
+    "0x7f43C7F13C4d8F6b1b18b01326CA6C9099Dd4855",
     "0x04130F8679394e3A8d55568F2189c3F3BF48ecbb",
+    "0x4fBa1c7427197CdFB8Ad96711B0C838B4680E233"
   ];
 
   let minters = [
-    "0x04130F8679394e3A8d55568F2189c3F3BF48ecbb",
+    "0x3Cb11e50fe513B78fB3761b2dE3C0C6eB5008b0C",
+    "0x6Ef18542040b7a60F323A80bDccbDe1912C0853f",
+    "0x74635DFF898a4C832b1839135BDAD91C58d8959B",
+    "0xCa543e570e4A1F6DA7cf9C4C7211692Bc105a00A",
+    "0x8c99847d8A10CeE8dCfBfbD018D1b00Cd4B246e1",
+    "0x8eFf9Efd56581bb5B8Ac5F5220faB9A7349160e3",
+    "0x4fBa1c7427197CdFB8Ad96711B0C838B4680E233",
     deployer.address
   ];
 
@@ -33,11 +45,11 @@ async function main() {
   await (await dexe.mint("0x04130F8679394e3A8d55568F2189c3F3BF48ecbb", "20000000000000000000000")).wait();
   console.log("Minted supply");
 
-  await (await dexe.changeMinters([deployer.address], false)).wait();
-  console.log("Removed deployer from minters");
+  // await (await dexe.changeMinters([deployer.address], false)).wait();
+  // console.log("Removed deployer from minters");
   
-  await (await dexe.changeOwners([deployer.address], false)).wait();
-  console.log("Removed deployer from owners");
+  // await (await dexe.changeOwners([deployer.address], false)).wait();
+  // console.log("Removed deployer from owners");
 
   }
 
